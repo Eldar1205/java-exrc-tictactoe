@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="tictactoe">
+	<xs:complexType>
+	    <xs:sequence>
+		<xs:element name="players">
+		    <xs:complexType>
+			<xs:sequence minOccurs="2" maxOccurs="2">
+			    <xs:element name="player" type="player"></xs:element>
+			</xs:sequence>
+		    </xs:complexType>
+		</xs:element>
+		<xs:element name="game">
+		    <xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="1">
+			    <xs:element name="currentTurn" type="gameValue"></xs:element>
+			    <xs:element name="currentBoard" minOccurs="0">
+				<xs:complexType>
+				    <xs:attributeGroup ref="location"/>
+				</xs:complexType>
+			    </xs:element>
+			</xs:sequence>
+		    </xs:complexType>
+		</xs:element>
+		<xs:element name="boards">
+		    <xs:complexType>
+			<xs:sequence maxOccurs="9">
+			    <xs:element ref="board"/>
+			</xs:sequence>
+		    </xs:complexType>
+		</xs:element>
+	    </xs:sequence>
+	</xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="player">
+	<xs:simpleContent>
+	    <xs:extension base="gameValue">
+		<xs:attribute name="type" type="playerType"/>
+	     <xs:attribute name="name" type="xs:string"/>
+	    </xs:extension>
+	</xs:simpleContent>
+    </xs:complexType>
+    <xs:simpleType name="gameValue">
+	<xs:restriction base="xs:string">
+	    <xs:enumeration value="X"/>
+	    <xs:enumeration value="O"/>
+	</xs:restriction>
+    </xs:simpleType>
+    <xs:element name="board">
+	<xs:complexType>
+	    <xs:sequence minOccurs="1" maxOccurs="9">
+		<xs:element name="cell" type="cell"></xs:element>
+	    </xs:sequence>
+	    <xs:attributeGroup ref="location"/>
+	    <xs:attribute name="winner" type="gameValue"/>
+	</xs:complexType>
+    </xs:element>
+    
+    <xs:simpleType name="playerType">
+	<xs:restriction base="xs:string">
+	    <xs:enumeration value="HUMAN"/>
+	    <xs:enumeration value="COMPUTER"/>
+	</xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="cell">
+	<xs:simpleContent>
+	    <xs:extension base="gameValue">
+		<xs:attributeGroup ref="location"/>
+	    </xs:extension>
+	</xs:simpleContent>
+    </xs:complexType>
+    <xs:attributeGroup name="location">
+	<xs:attribute name="row" type="position"/>
+	<xs:attribute name="col" type="position"/>
+    </xs:attributeGroup>
+    <xs:simpleType name="position">
+	<xs:restriction base="xs:positiveInteger">
+	    <xs:minInclusive value="1"/>
+	    <xs:maxInclusive value="3"/>
+	</xs:restriction>
+    </xs:simpleType>
+</xs:schema>
